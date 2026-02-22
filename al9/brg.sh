@@ -48,8 +48,6 @@ _strip_files() {
     echo
 }
 
-/sbin/ldconfig
-
 _install_rust() {
     set -e
     _tmp_dir="$(mktemp -d)"
@@ -113,6 +111,7 @@ export PATH=$RUST_HOME/bin:$PATH
 export LD_LIBRARY_PATH=$RUST_HOME/lib:$LD_LIBRARY_PATH
 export CARGO_HOME='.cargo'
 ############################################################################
+/sbin/ldconfig
 _tmp_dir="$(mktemp -d)"
 cd "${_tmp_dir}"
 # /BurntSushi/ripgrep/archive/refs/tags/15.1.0.tar.gz
