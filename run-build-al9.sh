@@ -19,7 +19,7 @@ fi
 sleep 2
 docker exec al9 dnf clean all
 docker exec al9 dnf makecache
-docker exec al9 dnf install -y wget bash openssl gcc g++ cmake m4 pkgconf clang llvm glibc-devel
+docker exec al9 dnf install -y wget bash openssl gcc g++ cmake m4 pkgconf clang llvm glibc-devel git
 docker exec al9 dnf install --allowerasing -y coreutils binutils findutils util-linux sed gawk tar xz gzip bzip2
 docker exec al9 /bin/bash -c 'ln -svf bash /bin/sh'
 docker exec al9 dnf update -y
