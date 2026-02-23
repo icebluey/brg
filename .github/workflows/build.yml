@@ -40,7 +40,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ env._release_ver }}
-          files: /tmp/_output_assets/_output/rg*
+          files: /tmp/_output_assets/_output/rg*.tar*
           overwrite_files: true
 
       - name: Delete
