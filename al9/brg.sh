@@ -136,6 +136,7 @@ tar -Jcf rg-el9.tar.xz rg
 sleep 1
 sha256sum -b rg-el9.tar.xz > rg-el9.tar.xz.sha256
 cat rg-el9.tar.xz.sha256
+rm -f rg
 
 cd /tmp
 rm -fr "${_tmp_dir}"
