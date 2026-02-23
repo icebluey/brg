@@ -135,10 +135,10 @@ mkdir /tmp/_output
 cp -a target/release/rg /tmp/_output/
 ./target/release/rg --version 2>&1 | head -n 1 | awk '{print $2}' > /tmp/_output/version.txt
 cd /tmp/_output
-tar -Jcf rg.tar.xz rg
+tar -Jcf rg-el9.tar.xz rg
 sleep 1
-sha256sum -b rg.tar.xz > rg.tar.xz.sha256
-cat rg.tar.xz.sha256
+sha256sum -b rg-el9.tar.xz > rg-el9.tar.xz.sha256
+cat rg-el9.tar.xz.sha256
 
 cd /tmp
 rm -fr "${_tmp_dir}"
