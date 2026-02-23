@@ -65,9 +65,9 @@ _install_rust() {
     cd /tmp
     rm -fr "${_tmp_dir}"
     #export RUST_HOME="/usr/local/rust"
-    export RUST_HOME="/usr/local"
-    export PATH=$RUST_HOME/bin:$PATH
-    export LD_LIBRARY_PATH=$RUST_HOME/lib:$LD_LIBRARY_PATH
+    #export RUST_HOME="/usr/local"
+    #export PATH=$RUST_HOME/bin:$PATH
+    #export LD_LIBRARY_PATH=$RUST_HOME/lib:$LD_LIBRARY_PATH
     export CARGO_HOME='.cargo'
     echo
     cargo --version
@@ -106,9 +106,6 @@ _build_pcre2() {
 
 ############################################################################
 _install_rust
-export RUST_HOME="/usr/local"
-export PATH=$RUST_HOME/bin:$PATH
-export LD_LIBRARY_PATH=$RUST_HOME/lib:$LD_LIBRARY_PATH
 export CARGO_HOME='.cargo'
 ############################################################################
 /sbin/ldconfig
