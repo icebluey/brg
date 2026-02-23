@@ -112,13 +112,20 @@ export CARGO_HOME='.cargo'
 _tmp_dir="$(mktemp -d)"
 cd "${_tmp_dir}"
 # /BurntSushi/ripgrep/archive/refs/tags/15.1.0.tar.gz
-_filepath="$(wget -qO- 'https://github.com/BurntSushi/ripgrep/releases' | grep -i 'archive/refs/tags/.*tar.*' | sed 's|"|\n|g' | grep -i 'archive/refs/tags/.*tar.*' | sort -V | tail -n 1)"
+#_filepath="$(wget -qO- 'https://github.com/BurntSushi/ripgrep/releases' | grep -i 'archive/refs/tags/.*tar.*' | sed 's|"|\n|g' | grep -i 'archive/refs/tags/.*tar.*' | sort -V | tail -n 1)"
 # https://github.com/BurntSushi/ripgrep/archive/refs/tags/15.1.0.tar.gz
-wget -c -t 9 -T 9 "https://github.com${_filepath}"
-tar -xof *.tar*
-sleep 1
-rm -f *.tar*
-cd ripgrep*
+#wget -c -t 9 -T 9 "https://github.com${_filepath}"
+#tar -xof *.tar*
+#sleep 1
+#rm -f *.tar*
+#cd ripgrep*
+
+git clone https://github.com/BurntSushi/ripgrep.git
+cd ripgrep
+git tag | sort -V
+git tag | grep '^[0-9]' | sort -V | tail -n 1
+git checkout "$(git tag | grep '^[0-9]' | sort -V | tail -n 1)"
+
 export PCRE2_SYS_STATIC=1
 cargo check
 cargo build --release --features 'pcre2'
@@ -141,6 +148,6 @@ rm -f rg
 cd /tmp
 rm -fr "${_tmp_dir}"
 echo
-echo ' build rg done'
+echo ' build rg el9 done'
 echo
 exit
