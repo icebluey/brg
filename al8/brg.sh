@@ -129,7 +129,7 @@ git checkout "$(git tag | grep '^[0-9]' | sort -V | tail -n 1)"
 
 export PCRE2_SYS_STATIC=1
 cargo check
-cargo build --release --features 'pcre2'
+cargo build -vv --release --features 'pcre2'
 cargo test --all
 sleep 1
 strip target/release/rg
