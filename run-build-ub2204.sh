@@ -17,7 +17,7 @@ fi
 sleep 2
 docker exec ub2204 apt update -y -qqq
 docker exec ub2204 apt install -y -qqq wget bash openssl gcc g++ cmake m4 pkg-config libc6-dev git curl
-docker exec ub2204 apt install -y -qqq coreutils binutils findutils util-linux sed gawk tar xz-utils gzip bzip2
+docker exec ub2204 apt install -y -qqq coreutils binutils findutils util-linux sed gawk tar xz-utils gzip bzip2 file
 docker exec ub2204 /bin/bash -c 'ln -svf bash /bin/sh'
 docker exec ub2204 apt upgrade -fy -qqq
 docker exec ub2204 /bin/bash -c 'rm -fr /tmp/*'
