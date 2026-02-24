@@ -103,6 +103,7 @@ _build_pcre2() {
     rm -fr /tmp/pcre2
     /sbin/ldconfig
 }
+_build_pcre2
 
 ############################################################################
 _install_rust
