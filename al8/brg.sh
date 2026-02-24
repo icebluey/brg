@@ -139,15 +139,15 @@ mkdir /tmp/_output
 cp -a target/release/rg /tmp/_output/
 ./target/release/rg --version 2>&1 | head -n 1 | awk '{print $2}' > /tmp/_output/version.txt
 cd /tmp/_output
-tar -Jcf rg-el9.tar.xz rg
+tar -Jcf rg-el8.tar.xz rg
 sleep 1
-sha256sum -b rg-el9.tar.xz > rg-el9.tar.xz.sha256
-cat rg-el9.tar.xz.sha256
+sha256sum -b rg-el8.tar.xz > rg-el8.tar.xz.sha256
+cat rg-el8.tar.xz.sha256
 rm -f rg
 
 cd /tmp
 rm -fr "${_tmp_dir}"
 echo
-echo ' build rg el9 done'
+echo ' build rg el8 done'
 echo
 exit
