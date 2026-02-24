@@ -1,4 +1,4 @@
-name: build
+name: al8
 on:
   #push:
   #  branches: [ "master" ]
