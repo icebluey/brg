@@ -19,6 +19,9 @@ docker exec ub2004 apt update -y -qqq
 docker exec ub2004 apt install -y -qqq wget bash openssl gcc g++ cmake m4 pkg-config libc6-dev git curl
 docker exec ub2004 apt install -y -qqq coreutils binutils findutils util-linux sed gawk tar xz-utils gzip bzip2
 docker exec ub2004 /bin/bash -c 'ln -svf bash /bin/sh'
+docker exec ub2004 /bin/bash -c 'ln -svf ../usr/share/zoneinfo/UTC /etc/localtime'
+docker exec ub2004 /bin/bash -c 'DEBIAN_FRONTEND=noninteractive apt install -y -qqq tzdata'
+docker exec ub2004 /bin/bash -c 'dpkg-reconfigure --frontend noninteractive tzdata'
 docker exec ub2004 apt upgrade -fy -qqq
 docker exec ub2004 /bin/bash -c 'rm -fr /tmp/*'
 docker cp ub2004 ub2004:/home/
