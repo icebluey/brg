@@ -1,0 +1,49 @@
+name: ub2004
+on:
+  #push:
+  #  branches: [ "master" ]
+  #pull_request:
+  #  branches: [ "master" ]
+  schedule:
+    - cron: '1 9 * * *'
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup
+        run: |
+          sudo apt update -y -qqq
+          sudo apt autoremove --purge -y needrestart || true
+          sudo apt install -y bash wget curl openssl
+          sudo ln -svf bash /bin/sh
+          sudo wget https://raw.githubusercontent.com/icebluey/docker/refs/heads/master/scripts/clean-os.sh -O /tmp/clean-os.sh
+          sudo bash /tmp/clean-os.sh
+          sudo wget https://raw.githubusercontent.com/icebluey/docker/refs/heads/master/install/ubuntu/install-for-docker.sh -O /tmp/install-for-docker.sh
+          sudo bash /tmp/install-for-docker.sh
+          sudo wget https://raw.githubusercontent.com/icebluey/docker/refs/heads/master/install/ubuntu/install-docker.sh -O /tmp/install-docker.sh
+          sudo bash /tmp/install-docker.sh
+          sudo /bin/rm -fr /tmp/*
+          sudo df -Th
+
+      - name: ub2004
+        run: sudo /bin/bash run-build-ub2004.sh
+
+      - name: Generate release tag env
+        run: |
+          _release_ver="$(cat /tmp/_output_assets/_output/version.txt)"
+          echo "_release_ver=${_release_ver}" >> $GITHUB_ENV
+
+      - name: Upload files
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ env._release_ver }}
+          files: /tmp/_output_assets/_output/rg*.tar*
+          overwrite_files: true
+
+      - name: Delete
+        run: |
+          sed -e "/^_release_ver=/d" -i $GITHUB_ENV
+          sudo rm -fr /tmp/_output_assets
