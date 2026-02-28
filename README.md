@@ -1,4 +1,4 @@
-# brg
+# [ripgrep](https://github.com/BurntSushi/ripgrep)
 ```
 'https://github.com/icebluey/brg/releases/latest/download/rg-el9.tar.xz'
 'https://github.com/icebluey/brg/releases/latest/download/rg-ub2204.tar.xz'
