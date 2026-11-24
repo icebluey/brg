@@ -52,26 +52,38 @@ _install_rust() {
     set -e
     _tmp_dir="$(mktemp -d)"
     cd "${_tmp_dir}"
-    _rust_ver="$(wget -qO- 'https://forge.rust-lang.org/infra/other-installation-methods.html#standalone' | grep -i '\.tar\.xz' | sed 's/"/\n/g' | grep -i 'https://.*xz$' | grep -ivE 'beta|nightly|src' | grep -i 'x86_64-unknown-linux-gnu' | sort -V | uniq | tail -n 1 | sed -e 's|.*rust-||g' -e 's|-x86.*||g')"
-    wget -c -t 0 -T 9 "https://static.rust-lang.org/dist/rust-${_rust_ver}-x86_64-unknown-linux-gnu.tar.xz"
-    tar -xof *.tar*
-    sleep 1
-    rm -fr *.tar*
-    cd rust-*
+    #
+    #_rust_ver="$(wget -qO- 'https://forge.rust-lang.org/infra/other-installation-methods.html#standalone' | grep -i '\.tar\.xz' | sed 's/"/\n/g' | grep -i 'https://.*xz$' | grep -ivE 'beta|nightly|src' | grep -i 'x86_64-unknown-linux-gnu' | sort -V | uniq | tail -n 1 | sed -e 's|.*rust-||g' -e 's|-x86.*||g')"
+    #wget -c -t 0 -T 9 "https://static.rust-lang.org/dist/rust-${_rust_ver}-x86_64-unknown-linux-gnu.tar.xz"
+    #tar -xof *.tar*
+    #sleep 1
+    #rm -fr *.tar*
+    #cd rust-*
+    #rm -fr /usr/local/rust
+    #bash install.sh --prefix=/usr/local
+    #sleep 1
+    #cd /tmp
+    #rm -fr "${_tmp_dir}"
+    #export CARGO_HOME='.cargo'
+    #
+    _stable_ver="$(wget -qO- 'https://forge.rust-lang.org/infra/other-installation-methods.html' | grep -i x86_64-unknown-linux-gnu | sed 's|"|\n|g' | grep -ivE 'alpha|beta|night' | grep -i "https://.*x86_64-unknown-linux-gnu" | sed 's|.*rust-||g; s|-x86.*||g' | sort -V | tail -n 1)"
+    curl --proto '=https' --tlsv1.3 -sSf https://sh.rustup.rs -o install_rust.sh
+    rm -fr ~/.rustup
     rm -fr /usr/local/rust
-    #bash install.sh --prefix=/usr/local/rust
-    bash install.sh --prefix=/usr/local
-    sleep 1
+    mkdir /usr/local/rust
+    export CARGO_HOME=/usr/local/rust
+    export RUSTUP_HOME=/usr/local/rust
+    bash install_rust.sh -v --default-host x86_64-unknown-linux-gnu --default-toolchain ${_stable_ver} --profile default -y
+    sed "/export PATH=/a\        export CARGO_HOME='.cargo'" -i /usr/local/rust/env
+    sed "/export PATH=/a\        export RUSTUP_HOME='/usr/local/rust'" -i /usr/local/rust/env
+    cat /usr/local/rust/env
+    . /usr/local/rust/env
+
+    echo '###'
+    cargo --version
+    echo '###'
     cd /tmp
     rm -fr "${_tmp_dir}"
-    #export RUST_HOME="/usr/local/rust"
-    #export RUST_HOME="/usr/local"
-    #export PATH=$RUST_HOME/bin:$PATH
-    #export LD_LIBRARY_PATH=$RUST_HOME/lib:$LD_LIBRARY_PATH
-    export CARGO_HOME='.cargo'
-    echo
-    cargo --version
-    echo
 }
 
 _build_pcre2() {
@@ -107,7 +119,8 @@ _build_pcre2
 
 ############################################################################
 _install_rust
-export CARGO_HOME='.cargo'
+#export CARGO_HOME='.cargo'
+. /usr/local/rust/env
 ############################################################################
 /sbin/ldconfig
 _tmp_dir="$(mktemp -d)"
